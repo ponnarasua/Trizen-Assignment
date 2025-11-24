@@ -12,7 +12,7 @@ function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 200000 });
   const [selectedRating, setSelectedRating] = useState(0);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const searchQuery = searchParams.get('search') || '';
@@ -33,16 +33,27 @@ function App() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
+      
       let data;
       if (searchQuery) {
         data = await searchProducts(searchQuery);
       } else {
         data = await getAllProducts();
       }
-      setProducts(data);
-      setFilteredProducts(data);
+      // Ensure data is always an array
+      const productsArray = Array.isArray(data) ? data : [];
+      setProducts(productsArray);
+      
+      // Reset filters AFTER setting products for search queries
+      if (searchQuery) {
+        setSelectedCategory('all');
+        setPriceRange({ min: 0, max: 200000 });
+        setSelectedRating(0);
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
+      setFilteredProducts([]);
     } finally {
       setLoading(false);
     }
@@ -100,19 +111,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 w-full overflow-x-hidden">
-      {/* Header with search functionality */}
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 w-full overflow-x-hidden transition-colors">
       <Header onSearch={handleSearch} />
 
-      {/* Hero Banner Section - Only show when not searched */}
-      <div className={!hasSearched ? 'pt-[10px]' : ''}>
-        {!hasSearched && <HeroBanner />}
-      </div>
+      {!hasSearched && <HeroBanner products={products} />}
 
-      {/* Main Content Container */}
-      <div className={`px-5 py-7 w-full ${hasSearched ? 'pt-[calc(80px+1.75rem)]' : ''}`}>
+      <div id="products-section" className={`px-5 w-full ${hasSearched ? 'pt-[calc(80px+1.75rem)] py-7' : 'pt-24 pb-7'}`}>
         <div className={`flex gap-5 ${showFilters ? 'items-start' : ''}`}>
-          {/* Filters Sidebar - Show only on searched page above 1100px */}
           {showFilters && (
             <div className="hidden lg:block w-2/12 min-w-[150px] max-w-[200px] flex-shrink-0 fixed left-5 top-[80px] h-[calc(100vh-80px)] overflow-y-auto">
               <Filters
@@ -126,14 +131,12 @@ function App() {
             </div>
           )}
 
-          {/* Products Grid - 10/12 width above 1100px with left margin for fixed sidebar, full width below 1100px */}
           <div className={showFilters ? 'w-full lg:w-10/12 lg:ml-[calc(16.666%+1.25rem)] flex-1 min-w-0' : 'w-full'}>
             <ProductGrid products={filteredProducts} loading={loading} />
           </div>
         </div>
       </div>
 
-      {/* Fixed Floating Filter Button - Bottom Right - Show on searched page below 1100px */}
       {showFilters && (
         <button
           onClick={() => setShowMobileFilters(true)}
@@ -146,20 +149,16 @@ function App() {
         </button>
       )}
 
-      {/* Filter Modal - Show on searched page below 1100px with blur backdrop */}
       {showMobileFilters && (
         <>
-          {/* Backdrop with blur */}
           <div 
             className="fixed inset-0 z-[199] bg-black bg-opacity-50 backdrop-blur-sm block lg:hidden"
             onClick={() => setShowMobileFilters(false)}
           ></div>
 
-          {/* Modal */}
           <div className="fixed inset-0 z-[200] flex lg:hidden flex-col pointer-events-none">
-            <div className="ml-auto w-full max-w-md h-full bg-white shadow-2xl pointer-events-auto flex flex-col animate-slide-in">
-              {/* Modal Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-amazon-dark text-white">
+            <div className="ml-auto w-full max-w-md h-full bg-white dark:bg-gray-800 shadow-2xl pointer-events-auto flex flex-col animate-slide-in">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-amazon-dark dark:bg-gray-800 text-white">
                 <h2 className="text-lg font-bold">Filters</h2>
                 <button
                   onClick={() => setShowMobileFilters(false)}
@@ -170,7 +169,6 @@ function App() {
                 </button>
               </div>
 
-              {/* Filters Content */}
               <div className="flex-1 overflow-y-auto p-4">
                 <Filters
                   selectedCategory={selectedCategory}
@@ -182,8 +180,7 @@ function App() {
                 />
               </div>
 
-              {/* Modal Footer */}
-              <div className="p-4 border-t border-gray-200 bg-white">
+              <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
                 <button
                   onClick={() => setShowMobileFilters(false)}
                   className="w-full px-4 py-3 bg-amazon-orange text-white rounded-lg font-medium hover:bg-opacity-90 transition"

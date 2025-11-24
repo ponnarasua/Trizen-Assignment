@@ -12,23 +12,35 @@ const ProductCard = ({ product }) => {
   // Generate star rating display
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    const decimal = rating - fullStars;
+    const hasPartialStar = decimal > 0;
+    const emptyStars = hasPartialStar ? 5 - fullStars - 1 : 5 - fullStars;
+    const partialWidth = `${(decimal * 100).toFixed(0)}%`;
 
     return (
-      <div className="text-yellow-500 text-base flex items-center gap-0.5">
-        {'★'.repeat(fullStars)}
-        {hasHalfStar && '☆'}
-        {'☆'.repeat(emptyStars)}
-        <span className="text-xs text-gray-600 ml-1.5">({rating})</span>
+      <div className="flex items-center gap-1">
+        <div className="flex items-center text-base">
+          {[...Array(fullStars)].map((_, i) => (
+            <span key={`full-${i}`} className="text-yellow-500">★</span>
+          ))}
+          {hasPartialStar && (
+            <span className="relative inline-block">
+              <span className="text-gray-300">★</span>
+              <span className="absolute top-0 left-0 text-yellow-500 overflow-hidden" style={{ width: partialWidth }}>★</span>
+            </span>
+          )}
+          {[...Array(emptyStars)].map((_, i) => (
+            <span key={`empty-${i}`} className="text-gray-300">★</span>
+          ))}
+        </div>
+        <span className="text-xs text-gray-600">({rating})</span>
       </div>
     );
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer flex flex-col">
-      {/* Product Image */}
-      <div className="relative w-full h-[250px] lg:h-[200px] sm:h-[180px] bg-gray-100 overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer flex flex-col">
+      <div className="relative w-full h-[250px] lg:h-[200px] sm:h-[180px] bg-gray-100 dark:bg-gray-700 overflow-hidden">
         {!imageLoaded && !imageError && <div className="flex items-center justify-center h-full text-gray-400 text-sm">Loading...</div>}
         {imageError ? (
           <div className="flex flex-col items-center justify-center h-full bg-gray-200 text-gray-500 text-sm font-medium">
@@ -59,34 +71,27 @@ const ProductCard = ({ product }) => {
         )}
       </div>
 
-      {/* Product Details */}
       <div className="p-4 sm:p-3 flex flex-col flex-1">
-        {/* Category */}
         <span className="text-xs text-amazon-link uppercase font-semibold mb-1.5">{product.category}</span>
 
-        {/* Product Name */}
-        <h3 className="text-base lg:text-[15px] sm:text-sm text-gray-800 font-semibold mb-1.5 overflow-hidden line-clamp-2 leading-[1.4] min-h-[44px] lg:min-h-[42px] sm:min-h-[40px]" title={product.name}>
+        <h3 className="text-base lg:text-[15px] sm:text-sm text-gray-800 dark:text-gray-100 font-semibold mb-1.5 overflow-hidden line-clamp-2 leading-[1.4] min-h-[44px] lg:min-h-[42px] sm:min-h-[40px]" title={product.name}>
           {product.name}
         </h3>
 
-        {/* Brand */}
-        {product.brand && <p className="text-xs text-gray-600 mb-2">{product.brand}</p>}
+        {product.brand && <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">{product.brand}</p>}
 
-        {/* Rating and Reviews */}
         <div className="flex items-center gap-1.5 mb-2.5">
           {renderStars(product.rating)}
-          <span className="text-xs text-gray-600">({product.reviews} reviews)</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">({product.reviews} reviews)</span>
         </div>
 
-        {/* Price */}
         <div className="flex items-center gap-2.5 mb-4">
-          <span className="text-2xl lg:text-[22px] sm:text-xl font-bold text-[#B12704]">${product.price}</span>
+          <span className="text-2xl lg:text-[22px] sm:text-xl font-bold text-blue-600 dark:text-blue-600">₹{product.price}</span>
           {product.originalPrice && product.originalPrice > product.price && (
-            <span className="text-base lg:text-sm text-gray-400 line-through">${product.originalPrice}</span>
+            <span className="text-base lg:text-sm text-gray-400 dark:text-gray-500 line-through">₹{product.originalPrice}</span>
           )}
         </div>
 
-        {/* Add to Cart Button */}
         <button
           className={`w-full px-2.5 py-2.5 sm:py-2 rounded-lg text-sm sm:text-xs font-semibold transition mt-auto ${
             !product.inStock 
