@@ -15,6 +15,21 @@ Built with **Vite** for lightning-fast development and **Tailwind CSS** for mode
 
 ---
 
+## 🎥 Demo Video
+
+Watch the application in action:
+
+https://github.com/ponnarasua/Trizen-Assignment/assets/Trizen_Ventures%20Assignment.mp4
+
+<details>
+<summary>📹 Click to view video demo</summary>
+
+https://github.com/ponnarasua/Trizen-Assignment/assets/Trizen_Ventures%20Assignment.mp4
+
+</details>
+
+---
+
 ## 📋 Table of Contents
 
 - [Features](#features)
