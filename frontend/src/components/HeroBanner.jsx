@@ -4,6 +4,14 @@ const HeroBanner = ({ products }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   
+  const scrollToProducts = (e) => {
+    e.preventDefault();
+    const element = document.getElementById('products-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+  
   const featuredProducts = products.filter(p => p.rating >= 4).slice(0, 5);
   
   useEffect(() => {
@@ -38,6 +46,7 @@ const HeroBanner = ({ products }) => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
+ 
             backgroundImage: `url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1920&h=1080&fit=crop&q=80')`,
           }}
         ></div>
@@ -62,9 +71,9 @@ const HeroBanner = ({ products }) => {
               Discover premium quality products at unbeatable prices. Your one-stop destination for everything you need.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center items-center">
-              <a 
-                href="#products-section"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-purple-600 bg-white rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-white/20"
+              <button 
+                onClick={scrollToProducts}
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-purple-600 bg-white rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-white/20 cursor-pointer"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Start Shopping
@@ -72,10 +81,10 @@ const HeroBanner = ({ products }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
-              </a>
-              <a 
-                href="#products-section"
-                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm rounded-xl border-2 border-white/30 transition-all duration-300 hover:bg-white/20 hover:scale-105"
+              </button>
+              <button 
+                onClick={scrollToProducts}
+                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm rounded-xl border-2 border-white/30 transition-all duration-300 hover:bg-white/20 hover:scale-105 cursor-pointer"
               >
                 <span className="flex items-center gap-2">
                   Explore Categories
@@ -83,7 +92,7 @@ const HeroBanner = ({ products }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </span>
-              </a>
+              </button>
             </div>
             
             <div className="pt-8 flex justify-center gap-8 text-white/80">
@@ -106,11 +115,11 @@ const HeroBanner = ({ products }) => {
         </div>
 
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <a href="#products-section" className="text-white/60 hover:text-white transition-colors">
+          <button onClick={scrollToProducts} className="text-white/60 hover:text-white transition-colors cursor-pointer bg-transparent border-none">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
-          </a>
+          </button>
         </div>
       </section>
     );
@@ -149,9 +158,9 @@ const HeroBanner = ({ products }) => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <a 
-                href="#products-section"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-purple-600 bg-white rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-white/20"
+              <button 
+                onClick={scrollToProducts}
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-purple-600 bg-white rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-white/20 cursor-pointer"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Shop All Products
@@ -159,13 +168,13 @@ const HeroBanner = ({ products }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
-              </a>
-              <a 
-                href="#products-section"
-                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm rounded-xl border-2 border-white/30 transition-all duration-300 hover:bg-white/20 hover:scale-105"
+              </button>
+              <button 
+                onClick={scrollToProducts}
+                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm rounded-xl border-2 border-white/30 transition-all duration-300 hover:bg-white/20 hover:scale-105 cursor-pointer"
               >
                 View Offers
-              </a>
+              </button>
             </div>
 
             <div className="flex gap-6 pt-4 text-white/80">
@@ -260,15 +269,15 @@ const HeroBanner = ({ products }) => {
                       )}
                     </div>
                     
-                    <a
-                      href="#products-section"
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
+                    <button
+                      onClick={scrollToProducts}
+                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
                     >
                       View
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -303,11 +312,11 @@ const HeroBanner = ({ products }) => {
       </div>
 
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden lg:block">
-        <a href="#products-section" className="text-white/60 hover:text-white transition-colors">
+        <button onClick={scrollToProducts} className="text-white/60 hover:text-white transition-colors cursor-pointer bg-transparent border-none">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
-        </a>
+        </button>
       </div>
     </section>
   );

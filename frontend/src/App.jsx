@@ -4,6 +4,7 @@ import Header from './components/Header';
 import HeroBanner from './components/HeroBanner';
 import Filters from './components/Filters';
 import ProductGrid from './components/ProductGrid';
+import Footer from './components/Footer';
 import { getAllProducts, searchProducts } from './services/api';
 
 function App() {
@@ -192,6 +193,8 @@ function App() {
           </div>
         </>
       )}
+
+      <Footer />
     </div>
   );
 }
