@@ -43,12 +43,6 @@ https://github.com/ponnarasua/Trizen-Assignment/assets/Trizen_Ventures%20Assignm
 - [Key Functionalities](#key-functionalities)
 - [Responsive Design](#responsive-design)
 
-## 📚 Additional Documentation
-
-- **[QUICKSTART.md](./QUICKSTART.md)** - Quick start guide for running the app
-- **[MIGRATION.md](./MIGRATION.md)** - Details about Vite + Tailwind migration
-- **[TAILWIND-REFERENCE.md](./TAILWIND-REFERENCE.md)** - Tailwind CSS class reference
-
 ---
 
 ## ✨ Features
